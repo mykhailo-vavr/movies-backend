@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "module": "CommonJS",
+    "target": "es6",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "rootDir": "./src",
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "strict": true,
+    "paths": {
+      "@/*": ["src/*"],
+      "~/*": ["./*"]
+    }
+  },
+  "include": ["./src"],
+  "exclude": ["node_modules"]
+}
