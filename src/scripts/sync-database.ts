@@ -1,10 +1,6 @@
-import sequelize from '@/database';
-import '@/database/models';
+import { sequelize } from '@/database';
 
 const syncDatabase = async () => {
-  await sequelize.authenticate();
-  console.info('Connected successfully');
-
   await sequelize.sync({ force: true });
   console.info('Synced successfully');
 

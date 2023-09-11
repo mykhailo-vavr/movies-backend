@@ -1,53 +1,48 @@
-import { User } from '@/database/models';
 import { Op } from 'sequelize';
-import { ModelCreationAttributes } from '@/types';
-import { InternalServerError, NotFoundError } from '../../common/error';
-import { GetAllRequest } from './requests';
-import { GetAllResponse, GetByPkResponse } from './responses';
+import { User } from '@/database';
+import { ConflictError, BadRequestError } from '@/common';
+import { hash, tokensHelper } from '@/utils';
+import { CreateRequest } from './requests';
 
 export class UserService {
   constructor(private readonly userModel: typeof User) {}
 
-  async getByPk(id: number): Promise<GetByPkResponse> {
-    try {
-      const user = await this.userModel.findOne({ where: { id }, attributes: { exclude: ['password'] } });
-
-      if (!user) {
-        throw new NotFoundError('There is no user with such id');
-      }
-
-      return user;
-    } catch {
-      throw new InternalServerError('Error while getting user');
-    }
-  }
-
-  getByEmailOrPhone({ email, phone }: { email?: string; phone?: string }) {
+  async getByEmail(email: string) {
     return this.userModel.findOne({
-      where: { [Op.or]: [...(email ? [{ email }] : []), ...(phone ? [{ phone }] : [])] },
+      where: { email },
     });
   }
 
-  async getAll(params: GetAllRequest['query']): Promise<GetAllResponse> {
-    try {
-      const { firstName, lastName, id } = params;
+  async create(data: CreateRequest['body']) {
+    const { email, name, password, confirmPassword } = data;
 
-      const users = await this.userModel.findAll({
-        where: {
-          ...(firstName && { firstName: { [Op.iLike]: `%${firstName}%` } }),
-          ...(lastName && { lastName: { [Op.iLike]: `%${lastName}%` } }),
-          ...(id && { id: { [Op.ne]: id } }),
-        },
-        attributes: { exclude: ['password'] },
-      });
-
-      return users;
-    } catch {
-      throw new InternalServerError('Error while getting users');
+    if (password !== confirmPassword) {
+      throw new BadRequestError('Passwords mismatch');
     }
-  }
 
-  async create(userData: ModelCreationAttributes<User>) {
-    await this.userModel.create(userData);
+    const hashedPassword = await hash(password);
+
+    const [user, created] = await this.userModel.findOrCreate({
+      where: { [Op.or]: [{ name }, { email }] },
+      defaults: {
+        name,
+        email,
+        password: hashedPassword,
+      },
+    });
+
+    if (!created) {
+      throw new ConflictError('User with such email or name is already exists');
+    }
+
+    const accessToken = tokensHelper.generate.access({
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      createAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    });
+
+    return { accessToken };
   }
 }

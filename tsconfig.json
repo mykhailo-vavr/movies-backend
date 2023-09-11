@@ -2,7 +2,7 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "module": "CommonJS",
-    "target": "es6",
+    "target": "es2017",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "rootDir": "./src",

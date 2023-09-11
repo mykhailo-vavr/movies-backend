@@ -1,7 +1,10 @@
-import { statusCodes } from '@/utils';
+import { StatusCodesEnum } from '@/utils';
 
 export class BaseError extends Error {
-  constructor(public readonly code: (typeof statusCodes)[keyof typeof statusCodes], public readonly message: string) {
+  constructor(
+    public readonly code: (typeof StatusCodesEnum)[keyof typeof StatusCodesEnum],
+    public readonly message: string,
+  ) {
     super(message);
   }
 }

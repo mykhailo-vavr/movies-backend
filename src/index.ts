@@ -1,17 +1,8 @@
-import server from '@/server';
+import { app } from '@/app';
 import '@/database';
 import { ConfigKeysEnum, getConfig } from './utils';
 
-// TODO:
-//  - Logging with Winston
-//  - Validation of request body
-//  - Update security
-//  - Performance optimization
-//  - Add health check
-//  - Add seeds
-//  - Add linter for commit messages
-
-const port = getConfig(ConfigKeysEnum.PORT) || 8080;
-server.listen(port, () => {
+const port = getConfig(ConfigKeysEnum.APP_PORT) || 8080;
+app.listen(port, () => {
   console.info(`Server run on port ${port}`);
 });

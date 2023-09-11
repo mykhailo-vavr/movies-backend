@@ -27,11 +27,22 @@
     "ecmaVersion": 12,
     "sourceType": "module"
   },
+  "overrides": [
+    {
+      "files": ["src/database/models/*.ts"],
+      "rules": {
+        "import/no-cycle": "off"
+      }
+    }
+  ],
   "rules": {
-    "no-console": ["error", { "allow": ["info", "error"] }],
-    "import/prefer-default-export": "off",
-    "no-plusplus": "off",
     "@typescript-eslint/unbound-method": "off",
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "import/prefer-default-export": "off",
+    "import/no-named-as-default": "off",
+    "no-plusplus": "off",
+    "no-console": ["error", { "allow": ["info", "error"] }],
+    "no-continue": ["off"],
+    "no-restricted-syntax": ["off", "ForOfStatement"]
   }
 }

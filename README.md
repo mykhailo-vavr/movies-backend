@@ -4,8 +4,9 @@
 
 - [Express](https://expressjs.com/)
 - [TypeScript](https://www.typescriptlang.org/)
-- [PostgreSQL](https://www.postgresql.org/)
+- [Sqlite](https://www.sqlite.org/index.html)
 - [Sequelize](https://sequelize.org/)
+- [Sequelize-typescript](https://www.npmjs.com/package/sequelize-typescript)
 - others
 
 ## How to start project
@@ -20,4 +21,30 @@
 5. Run project
    `npm run dev`
 
-Developed by mykhailo-vavr (GitHub)
+## Run in Docker
+
+1. Build image
+
+`docker build -t \<your_super_account>/movies .`
+
+2. Run container
+
+`docker run --name movies -p 8000:8050 -e APP_PORT=8050
+<your_super_account>/movies`
+
+## What can be improved
+
+- Update body structure of returned errors
+- Add validation for request body and query params
+
+## Known issues
+
+Invalid data limit and offset when { include: Model } in GET /movies route
+
+It is a [bug of sequelize](https://github.com/sequelize/sequelize/issues/14463)
+
+## Other
+
+As boilerplate used [this starter](https://github.com/mykhailo-vavr/express-starter)
+
+#### Developed by mykhailo-vavr (GitHub)
