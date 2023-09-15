@@ -23,6 +23,8 @@
 
 ## Run in Docker
 
+Link to image in DockerHub: [movies-backend image](https://hub.docker.com/repository/docker/skystarpeach/movies/general)
+
 1. Build image
 
 `docker build -t \<your_super_account>/movies .`
@@ -36,6 +38,7 @@
 
 - Update body structure of returned errors
 - Add validation for request body and query params
+- Replace `sequelize.sync()` with migrations
 
 ## Known issues
 

@@ -5,7 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "dev": "ts-node-dev -r tsconfig-paths/register src/index.ts",
-    "build": "rimraf ./dist && tsc && tsc-alias && npx cross-env STORAGE=dist/movieeees-db.sqlite node ./dist/scripts/sync-database.js",
+    "build": "rimraf ./dist && tsc && tsc-alias && npx cross-env STORAGE=dist/movies-db.sqlite node ./dist/scripts/sync-database.js",
     "start": "npm run build && node dist/index.js",
     "sync": "ts-node-dev -r tsconfig-paths/register src/scripts/sync-database.ts",
     "prepare": "husky install"
