@@ -40,6 +40,7 @@
     "class-methods-use-this": "off",
     "import/prefer-default-export": "off",
     "import/no-named-as-default": "off",
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
     "no-plusplus": "off",
     "no-console": ["error", { "allow": ["info", "error"] }],
     "no-continue": ["off"],

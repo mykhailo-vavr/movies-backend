@@ -20,6 +20,7 @@ export class User extends Model<User> {
   @Column({ type: DataType.INTEGER, autoIncrement: true })
   id!: CreationOptional<number>;
 
+  @NotEmpty
   @Length({ min: 1, max: 50 })
   @Unique
   @AllowNull(false)
@@ -32,8 +33,8 @@ export class User extends Model<User> {
   @Column(DataType.STRING(100))
   email!: string;
 
-  @Length({ min: 1, max: 255 })
   @NotEmpty
+  @Length({ min: 1, max: 255 })
   @AllowNull(false)
   @Column(DataType.STRING(255))
   password!: string;

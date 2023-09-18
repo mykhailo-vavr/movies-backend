@@ -1,4 +1,5 @@
 import {
+  ExtensionsEnum,
   OrderEnum,
   generatePaginationCondition,
   getReadFileByLineIterator,
@@ -6,10 +7,9 @@ import {
   removeDuplicates,
 } from '@/utils';
 import { BadRequestError, ConflictError, NotFoundError } from '@/common';
-import { Headers, Request } from '@/types';
-import { Actor, FormatEnum, Movie, createTransaction } from '@/database';
+import { FileInfo, Headers, Request, ReadableStream } from '@/types';
+import { Actor, FormatEnum, Movie, createTransaction, sequelize } from '@/database';
 import { Op } from 'sequelize';
-import { Readable } from 'stream';
 import { ActorService } from '../actor';
 import { CreateRequest, DeleteRequest, GetAllRequest, GetByPkRequest, UpdateRequest } from './requests';
 
@@ -137,7 +137,8 @@ export class MovieService {
         model: Actor,
         attributes: [],
       },
-      order: [[sort, order]],
+      order: [[sequelize.fn('lower', sequelize.col(`${Movie.name}.${sort}`)), order]],
+
       ...generatePaginationCondition({ limit, offset }),
       subQuery: false,
     });
@@ -146,7 +147,11 @@ export class MovieService {
   }
 
   async import(headers: Headers, pipe: Request['pipe']) {
-    const onFile = async (resolve: (value: Movie[]) => void, _: string, file: Readable) => {
+    const onFile = async (resolve: (value: Movie[]) => void, name: string, file: ReadableStream, info: FileInfo) => {
+      if (info.extension !== ExtensionsEnum.TXT) {
+        throw new BadRequestError('File type could only be .txt');
+      }
+
       const rl = getReadFileByLineIterator(file);
 
       let movie: Partial<Parameters<typeof this.create>[0]> = {};

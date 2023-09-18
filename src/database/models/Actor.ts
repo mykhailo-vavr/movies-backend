@@ -11,6 +11,7 @@ import {
   BelongsToMany,
   Unique,
   Length,
+  NotEmpty,
 } from 'sequelize-typescript';
 import { Movie } from './Movie';
 
@@ -20,6 +21,7 @@ export class Actor extends Model<Actor> {
   @Column({ type: DataType.INTEGER, autoIncrement: true })
   id!: CreationOptional<number>;
 
+  @NotEmpty
   @Length({ min: 1, max: 50 })
   @Unique
   @AllowNull(false)
