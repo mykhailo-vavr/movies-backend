@@ -1,4 +1,4 @@
-# Express starter
+# Movies Backend
 
 ## Used technologies and libraries
 
