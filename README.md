@@ -27,7 +27,7 @@ Link to image in DockerHub: [movies-backend image](https://hub.docker.com/reposi
 
 1. Build image
 
-`docker build -t \<your_super_account>/movies .`
+`docker build -t <your_super_account>/movies .`
 
 2. Run container
 
