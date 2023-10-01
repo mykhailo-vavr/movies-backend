@@ -50,4 +50,4 @@ It is a [bug of sequelize](https://github.com/sequelize/sequelize/issues/14463)
 
 As boilerplate used [this starter](https://github.com/mykhailo-vavr/express-starter)
 
-#### Developed by mykhailo-vavr (GitHub)
+#### Developed by [mykhailo-vavr](https://github.com/mykhailo-vavr) (GitHub)
