@@ -3,6 +3,7 @@ import {
   OrderEnum,
   generatePaginationCondition,
   getReadFileByLineIterator,
+  likeOperator,
   readFormDataFile,
   removeDuplicates,
 } from '@/utils';
@@ -124,14 +125,8 @@ export class MovieService {
     const movies = await this.movieModel.findAndCountAll({
       distinct: true,
       where: {
-        [Op.and]: [
-          { title: { [Op.like]: `%${title || ''}%` } },
-          { '$actors.name$': { [Op.like]: `%${actor || ''}%` } },
-        ],
-        [Op.or]: [
-          { title: { [Op.like]: `%${search || ''}%` } },
-          { '$actors.name$': { [Op.like]: `%${search || ''}%` } },
-        ],
+        [Op.and]: [{ title: likeOperator(title) }, { '$actors.name$': likeOperator(actor) }],
+        [Op.or]: [{ title: likeOperator(search) }, { '$actors.name$': likeOperator(search) }],
       },
       include: {
         model: Actor,

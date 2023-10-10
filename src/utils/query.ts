@@ -1,3 +1,5 @@
+import { Op } from 'sequelize';
+
 export enum OrderEnum {
   DESC = 'DESC',
   ASC = 'ASC',
@@ -13,3 +15,5 @@ export const generatePaginationCondition = ({
   limit: +limit,
   offset: +offset,
 });
+
+export const likeOperator = (value: string | undefined) => ({ [Op.like]: `%${value || ''}%` });
